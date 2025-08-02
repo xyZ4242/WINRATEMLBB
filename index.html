@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Winrate Calculator | @Savero42</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #c3e0f7, #d5f3ff, #f2fbff);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(20px);
+    }
+
+    .inner-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 25px 20px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 25px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0f172a;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    label {
+      color: #334155;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.8);
+      color: #0f172a;
+      font-size: 15px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: #64748b;
+    }
+
+    input:focus {
+      outline: none;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 0 5px rgba(0, 178, 255, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background: linear-gradient(to right, #38bdf8, #0ea5e9);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(14,165,233,0.6);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 14px;
+      color: #0f172a;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+    }
+
+    .credit {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .credit a {
+      color: #0ea5e9;
+      text-decoration: none;
+    }
+
+    .credit a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="inner-box">
+      <h1>MLBB Winrate Calculator</h1>
+
+      <label>Total Matches</label>
+      <input type="number" id="totalMatch" placeholder="Example: 259">
+
+      <label>Current Winrate (%)</label>
+      <input type="number" id="totalWR" placeholder="Example: 76.4">
+
+      <label>Target Winrate (%)</label>
+      <input type="number" id="targetWR" placeholder="Example: 80">
+
+      <button onclick="calculate()">Calculate</button>
+
+      <div class="result" id="result"></div>
+
+      <div class="credit">
+        Built by <b>@Savero42</b> |
+        🌐 <a href="https://www.tiktok.com/@saveroooo5?_t=ZS-8xXyTJ0bOnI&_r=1" target="_blank">My TikTok</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const totalMatch = parseFloat(document.getElementById('totalMatch').value);
+      const totalWR = parseFloat(document.getElementById('totalWR').value);
+      const targetWR = parseFloat(document.getElementById('targetWR').value);
+
+      const resultEl = document.getElementById('result');
+
+      if (isNaN(totalMatch) || isNaN(totalWR) || isNaN(targetWR)) {
+        resultEl.innerHTML = "⚠️ Please fill in all fields correctly.";
+        return;
+      }
+
+      const totalWins = totalMatch * (totalWR / 100);
+      const neededWins = ((targetWR / 100) * totalMatch - totalWins) / (1 - (targetWR / 100));
+
+      if (neededWins < 0) {
+        resultEl.innerHTML = `🔥 Your current winrate is already higher than ${targetWR}%!`;
+      } else {
+        resultEl.innerHTML = `🎯 To reach <b>${targetWR}%</b> winrate, you need <b>${Math.ceil(neededWins)}</b> consecutive wins without losing.`;
+      }
+    }
+  </script>
+
+</body>
+</html>
